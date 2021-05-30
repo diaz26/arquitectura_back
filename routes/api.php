@@ -10,6 +10,14 @@ Route::group([ 'middleware' => 'api', 'prefix' => 'auth'], function ($router) {
     Route::post('me', 'api\AuthController@me');
 });
 
-Route::group([ /* 'middleware' => 'jwt.auth', */ 'prefix' => 'admin'], function ($router) {
-    Route::get('users', 'api\UserController@index');
+Route::group([ 'middleware' => 'jwt.auth', 'prefix' => 'admin'], function ($router) {
+    Route::group(['prefix' => 'users'], function ($user) {
+        Route::get('', 'api\UserController@index');
+        Route::post('', 'api\UserController@store');
+        Route::put('{id}', 'api\UserController@update');
+        Route::delete('{id}', 'api\UserController@destroy');
+    });
 });
+
+Route::get('pruebas', 'api\UserController@probando');
+
